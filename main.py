@@ -34,6 +34,7 @@ def main():
     sd = sub.add_parser("subdomain"); sd.add_argument("domain")
     ss = sub.add_parser("ssl-audit"); ss.add_argument("host"); ss.add_argument("--port", type=int, default=443)
     fl = sub.add_parser("flood"); fl.add_argument("target"); fl.add_argument("--mode", choices=["syn","udp","icmp"], default="syn"); fl.add_argument("--count", type=int, default=1000); fl.add_argument("--port", type=int, default=80)
+    hp = sub.add_parser("honeypot"); hp.add_argument("--ports", default="2222,8080,2323")
     f = sub.add_parser("full"); f.add_argument("target"); f.add_argument("--web", action="store_true")
 
     args = p.parse_args()
@@ -101,6 +102,11 @@ def main():
             data = pf.icmp(args.count)
         print(json.dumps(data, indent=2, default=str))
         print("Saved:", rep.save_json(data, "flood"))
+
+    elif args.cmd == "honeypot":
+        import honeypot
+        honeypot.run()
+        return
 
     elif args.cmd == "full":
         ns = NetworkScanner(args.target)
