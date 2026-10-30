@@ -96,6 +96,6 @@ pip install -r requirements.txt
 python web/app.py
 # open http://127.0.0.1:5000
 ```
-Professional tabbed dashboard: Web Scan, CVE Lookup, SSL Audit, Subdomain Enum, Flood, Network Scan, Honeypot Logs. API endpoints: /api/scan-web, /api/cve, /api/ssl, /api/subdomain, /api/flood, /api/scan-network, /api/honeypot-logs.
+Professional tabbed dashboard: Web Scan, CVE Lookup, SSL Audit, Subdomain Enum, Flood, Network Scan, Honeypot Logs, Network Monitor. API endpoints: /api/scan-web, /api/cve, /api/ssl, /api/subdomain, /api/flood, /api/scan-network, /api/honeypot-logs, /api/net-stats.
 
 GitHub: https://github.com/abid8670
