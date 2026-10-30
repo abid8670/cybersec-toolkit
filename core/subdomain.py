@@ -8,7 +8,7 @@ class SubdomainEnum:
     def crtsh(self):
         url = f"https://crt.sh/?q=%25.{self.domain}&output=json"
         try:
-            r = requests.get(url, timeout=30)
+            r = requests.get(url, timeout=60)
             r.raise_for_status()
             data = r.json()
         except Exception as e:
