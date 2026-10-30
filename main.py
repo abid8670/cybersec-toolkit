@@ -28,7 +28,7 @@ def main():
     s = sub.add_parser("scan-network"); s.add_argument("target"); s.add_argument("--ports", default="1-1024")
     w = sub.add_parser("scan-web"); w.add_argument("url")
     h = sub.add_parser("hping"); h.add_argument("target"); h.add_argument("--mode", choices=["syn","udp","icmp"], default="syn"); h.add_argument("--count", type=int, default=1000); h.add_argument("--port", type=int, default=80); h.add_argument("--flood", action="store_true")
-    c = sub.add_parser("cve"); c.add_argument("keyword"); c.add_argument("--limit", type=int, default=10)
+    c = sub.add_parser("cve"); c.add_argument("keyword", nargs="+"); c.add_argument("--limit", type=int, default=10)
     r = sub.add_parser("remote-health"); r.add_argument("host"); r.add_argument("-u","--user", required=True); r.add_argument("-p","--password"); r.add_argument("--key")
     a = sub.add_parser("agent-status"); a.add_argument("--config", default="agents.json")
     sd = sub.add_parser("subdomain"); sd.add_argument("domain")
@@ -60,7 +60,7 @@ def main():
 
     elif args.cmd == "cve":
         cl = CVELookup()
-        data = cl.search(args.keyword, args.limit)
+        data = cl.search(" ".join(args.keyword), args.limit)
         print(json.dumps(data, indent=2, default=str))
         print("Saved:", rep.save_json(data, "cve"))
 
