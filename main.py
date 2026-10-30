@@ -3,6 +3,8 @@ import argparse, json
 from core.cve import CVELookup
 from core.remote import RemoteChecker
 from core.agent_monitor import monitor
+from core.subdomain import SubdomainEnum
+from core.ssl_audit import SSLAudit
 from core.scanner import NetworkScanner
 from core.web_vuln import WebVulnScanner
 from core.hping import HPing
@@ -28,6 +30,8 @@ def main():
     c = sub.add_parser("cve"); c.add_argument("keyword"); c.add_argument("--limit", type=int, default=10)
     r = sub.add_parser("remote-health"); r.add_argument("host"); r.add_argument("-u","--user", required=True); r.add_argument("-p","--password"); r.add_argument("--key")
     a = sub.add_parser("agent-status"); a.add_argument("--config", default="agents.json")
+    sd = sub.add_parser("subdomain"); sd.add_argument("domain")
+    ss = sub.add_parser("ssl-audit"); ss.add_argument("host"); ss.add_argument("--port", type=int, default=443)
     f = sub.add_parser("full"); f.add_argument("target"); f.add_argument("--web", action="store_true")
 
     args = p.parse_args()
@@ -72,6 +76,18 @@ def main():
             if d["status"] == "UP":
                 print("   ", d["data"])
         print("Saved:", rep.save_json(data, "agents"))
+
+    elif args.cmd == "subdomain":
+        se = SubdomainEnum(args.domain)
+        data = se.crtsh()
+        print(json.dumps(data, indent=2, default=str))
+        print("Saved:", rep.save_json(data, "subdomain"))
+
+    elif args.cmd == "ssl-audit":
+        sa = SSLAudit(args.host, args.port)
+        data = sa.audit()
+        print(json.dumps(data, indent=2, default=str))
+        print("Saved:", rep.save_json(data, "ssl"))
 
     elif args.cmd == "full":
         ns = NetworkScanner(args.target)

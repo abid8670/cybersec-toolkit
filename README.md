@@ -19,6 +19,8 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 | **hping3 Wrapper** | TCP SYN / UDP / ICMP flood for stress-testing own servers |
 | **CVE Lookup** | Live CVE search via NVD API (CVSS + descriptions) |
 | **Remote Health** | SSH-based server monitoring (uptime, CPU, mem, disk, services, ports) |
+| **Subdomain Enum** | crt.sh certificate transparency lookup |
+| **SSL Audit** | TLS version, cipher, cert expiry, issuer |
 | **Agent Monitor** | Generic agent health checks across multiple servers |
 | **Reporter** | JSON + HTML reports |
 

@@ -1,0 +1,48 @@
+{
+  "protocol": "TLSv1.3",
+  "cipher": [
+    "TLS_AES_256_GCM_SHA384",
+    "TLSv1.3",
+    256
+  ],
+  "not_after": "Dec 25 22:56:35 2026 GMT",
+  "days_until_expiry": 56,
+  "subject": [
+    [
+      [
+        "commonName",
+        "example.com"
+      ]
+    ]
+  ],
+  "issuer": [
+    [
+      [
+        "countryName",
+        "US"
+      ]
+    ],
+    [
+      [
+        "organizationName",
+        "SSL Corporation"
+      ]
+    ],
+    [
+      [
+        "commonName",
+        "Cloudflare TLS Issuing ECC CA 3"
+      ]
+    ]
+  ],
+  "san": [
+    [
+      "DNS",
+      "example.com"
+    ],
+    [
+      "DNS",
+      "*.example.com"
+    ]
+  ]
+}

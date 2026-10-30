@@ -1,0 +1,12 @@
+{
+  "protocol": "TLSv1.3",
+  "cipher": [
+    "TLS_AES_256_GCM_SHA384",
+    "TLSv1.3",
+    256
+  ],
+  "not_after": null,
+  "subject": null,
+  "issuer": null,
+  "san": null
+}
