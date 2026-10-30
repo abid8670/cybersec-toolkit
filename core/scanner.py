@@ -1,4 +1,6 @@
 """Network / LAN scanner using nmap."""
+import os
+os.environ["PATH"] = r"C:\Program Files (x86)\Nmap" + ";" + os.environ.get("PATH", "")
 import nmap
 import socket
 from tqdm import tqdm
