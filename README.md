@@ -71,6 +71,22 @@ Only scan systems you own or have written permission to test. Unauthorized scann
 - Reverse-shell *detection* rules (defensive)
 - Async scanning
 
+## How Each Module Works
+
+- **Network Scanner**: nmap host discovery + port/service scan. Identifies open ports, services, versions on a target/range.
+- **Web Vuln Scanner**: checks security headers, CORS misconfig, forms, SQLi/XSS probes, sensitive files (.env, .git), open redirects.
+- **hping3 Wrapper / Python Flood**: sends SYN/UDP/ICMP packets to stress-test own servers (load testing). Python flood works on Windows without hping3.
+- **CVE Lookup**: queries NVD API for CVEs by keyword/product, returns CVSS + description.
+- **Remote Health**: SSH into a server, returns uptime, CPU, memory, disk, failed services, listening ports.
+- **Agent Monitor**: generic agent (agent.py) runs on each server exposing /health; central tool polls all agents and shows UP/DOWN + metrics.
+- **Subdomain Enum**: crt.sh certificate transparency lookup to find subdomains.
+- **SSL Audit**: TLS version, cipher, cert expiry, issuer, SAN.
+- **Honeypot**: fake SSH/HTTP/telnet services on ports 2222/8080/2323. Logs attacker IP + payload to honeypot.log. Use to detect/identify attackers on your network (decoy).
+
+## Honeypot Benefit
+Attackers scanning your network hit the honeypot (decoy) instead of real services. You capture their IP, attempted credentials/commands, and timing. Helps identify malicious IPs for firewall blocking and incident response.
+
 ## Author
 
-Abid Iqbal — [github.com/abid8670](https://github.com/abid8670)
+Abid Iqbal — IT professional, 6+ years experience (Digital Transformation, Infrastructure, ERP, Security).
+GitHub: https://github.com/abid8670
