@@ -1,28 +1,58 @@
-# CyberSec Toolkit
+# 💀 CyberSec Toolkit
 
-A Python-based security assessment toolkit for **authorized** testing of your own infrastructure.
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Nmap](https://img.shields.io/badge/Nmap-integrated-005B64?style=flat-square)
+![NVD](https://img.shields.io/badge/CVE-NVD%20API-blue?style=flat-square)
+
+A Python-based cybersecurity assessment toolkit for **authorized** testing of your own infrastructure. Terminal-first CLI with modular scanners and reporting.
+
+![Logo](logo.svg)
 
 ## Modules
-- **Network Scanner** — host discovery, port scan, service/version detection (nmap)
-- **Local IP Scanner** — ARP/ping sweep of the LAN
-- **Web Vulnerability Scanner** — headers, CORS, XSS, SQLi, SSRF, open redirects, sensitive files
-- **hping3 Wrapper** — TCP/UDP/ICMP flood & SYN flood for stress-testing own servers
-- **Reporter** — JSON + HTML reports
+
+| Module | Description |
+|---|---|
+| **Network Scanner** | Host discovery, port scan, service/version detection via nmap |
+| **Local IP Scanner** | LAN sweep (ARP/ping) |
+| **Web Vuln Scanner** | Security headers, CORS, forms, SQLi/XSS probes, sensitive files, open redirect |
+| **hping3 Wrapper** | TCP SYN / UDP / ICMP flood for stress-testing own servers |
+| **CVE Lookup** | Live CVE search via NVD API (CVSS + descriptions) |
+| **Reporter** | JSON + HTML reports |
 
 ## Install
+
 ```bash
+git clone https://github.com/abid8670/cybersec-toolkit.git
+cd cybersec-toolkit
 pip install -r requirements.txt
-# hping3 (external): sudo apt install hping3  (Linux) / download on Windows
+# external: nmap (https://nmap.org), hping3 (Linux/WSL: apt install hping3)
 ```
 
 ## Usage
+
 ```bash
 python main.py --help
-python main.py scan-network 192.168.0.0/21
+python main.py scan-network 192.168.0.0/21 --ports 1-1024
 python main.py scan-web https://target.example
-python main.py hping 192.168.0.4 --mode syn --count 1000
+python main.py cve "apache 2.4" --limit 10
+python main.py hping 192.168.0.4 --mode syn --count 1000 --flood
 python main.py full 192.168.0.0/21 --web
 ```
 
 ## Authorization
+
 Only scan systems you own or have written permission to test. Unauthorized scanning is illegal.
+
+## Roadmap
+
+- Subdomain enumeration (crt.sh)
+- Directory brute-force
+- SSL/TLS audit
+- DNS zone transfer check
+- Reverse-shell *detection* rules (defensive)
+- Async scanning
+
+## Author
+
+Abid Iqbal — [github.com/abid8670](https://github.com/abid8670)
