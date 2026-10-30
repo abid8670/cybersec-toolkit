@@ -1,0 +1,2 @@
+# Only needed for the synthetic screenshot command.
+pillow>=10.0.0

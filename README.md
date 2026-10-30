@@ -23,6 +23,7 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 | **SSL Audit** | TLS version, cipher, cert expiry, issuer |
 | **Agent Monitor** | Generic agent health checks across multiple servers |
 | **Reporter** | JSON + HTML reports |
+| **RAT Architecture Lab** | Educational, loopback-only C2 simulator (allowlisted commands, framing, file transfer, detection guide) |
 
 ## Install
 

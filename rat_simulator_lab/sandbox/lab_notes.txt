@@ -1,0 +1,12 @@
+Welcome to the RAT architecture lab.
+
+This file lives in the agent's sandbox. The simulator may read it and send it
+to the C2 console as a demonstration of the file-transfer channel.
+
+Rules of the lab:
+- loopback only
+- allowlisted commands only
+- no shell, no persistence, no stealth
+- only machines you own
+
+If you can read this through the simulator, the framing and file channel work.
