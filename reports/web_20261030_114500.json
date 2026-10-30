@@ -1,0 +1,21 @@
+{
+  "headers": {
+    "status": 200,
+    "missing_headers": [
+      "Strict-Transport-Security",
+      "Content-Security-Policy",
+      "X-Frame-Options",
+      "X-Content-Type-Options",
+      "Referrer-Policy",
+      "Permissions-Policy"
+    ],
+    "present": {}
+  },
+  "cors": {
+    "acao": null,
+    "acac": null,
+    "vulnerable": false
+  },
+  "forms": [],
+  "sensitive_files": []
+}
