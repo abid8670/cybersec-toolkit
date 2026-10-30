@@ -1,0 +1,28 @@
+{
+  "hosts": [
+    {
+      "ip": "192.168.0.4",
+      "state": "up",
+      "hostname": ""
+    }
+  ],
+  "ports": {
+    "192.168.0.4": {
+      "state": "up",
+      "ports": {
+        "53": {
+          "state": "open",
+          "name": "domain",
+          "product": "Simple DNS Plus",
+          "version": ""
+        },
+        "88": {
+          "state": "open",
+          "name": "kerberos-sec",
+          "product": "Microsoft Windows Kerberos",
+          "version": ""
+        }
+      }
+    }
+  }
+}

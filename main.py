@@ -5,6 +5,7 @@ from core.remote import RemoteChecker
 from core.agent_monitor import monitor
 from core.subdomain import SubdomainEnum
 from core.ssl_audit import SSLAudit
+from core.flood import PyFlood
 from core.scanner import NetworkScanner
 from core.web_vuln import WebVulnScanner
 from core.hping import HPing
@@ -32,6 +33,7 @@ def main():
     a = sub.add_parser("agent-status"); a.add_argument("--config", default="agents.json")
     sd = sub.add_parser("subdomain"); sd.add_argument("domain")
     ss = sub.add_parser("ssl-audit"); ss.add_argument("host"); ss.add_argument("--port", type=int, default=443)
+    fl = sub.add_parser("flood"); fl.add_argument("target"); fl.add_argument("--mode", choices=["syn","udp","icmp"], default="syn"); fl.add_argument("--count", type=int, default=1000); fl.add_argument("--port", type=int, default=80)
     f = sub.add_parser("full"); f.add_argument("target"); f.add_argument("--web", action="store_true")
 
     args = p.parse_args()
@@ -88,6 +90,17 @@ def main():
         data = sa.audit()
         print(json.dumps(data, indent=2, default=str))
         print("Saved:", rep.save_json(data, "ssl"))
+
+    elif args.cmd == "flood":
+        pf = PyFlood(args.target, args.port)
+        if args.mode == "syn":
+            data = pf.syn(args.count)
+        elif args.mode == "udp":
+            data = pf.udp(args.count)
+        else:
+            data = pf.icmp(args.count)
+        print(json.dumps(data, indent=2, default=str))
+        print("Saved:", rep.save_json(data, "flood"))
 
     elif args.cmd == "full":
         ns = NetworkScanner(args.target)
