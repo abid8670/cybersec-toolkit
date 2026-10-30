@@ -1,5 +1,5 @@
 """Simple honeypot: fake SSH/HTTP/telnet that logs attacker activity."""
-import socket, threading, datetime, json, os
+import socket, threading, datetime, json, os, time
 
 LOG = "honeypot.log"
 
