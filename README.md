@@ -21,9 +21,8 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 | **Remote Health** | SSH-based server monitoring (uptime, CPU, mem, disk, services, ports) |
 | **Subdomain Enum** | crt.sh certificate transparency lookup |
 | **SSL Audit** | TLS version, cipher, cert expiry, issuer |
-| **Agent Monitor** | Generic agent health checks across multiple servers |
+| **Python Flood** | scapy-based SYN/UDP/ICMP flood (Windows-friendly) |
 | **Reporter** | JSON + HTML reports |
-| **RAT Architecture Lab** | Educational, loopback-only C2 simulator (allowlisted commands, framing, file transfer, detection guide) |
 
 ## Install
 
@@ -53,6 +52,7 @@ python main.py cve "apache 2.4" --limit 10
 python main.py hping 192.168.0.4 --mode syn --count 1000 --flood
 python main.py remote-health 192.168.0.4 -u root -p <password>
 python main.py agent-status --config agents.json.example
+python main.py flood 192.168.3.185 --mode syn --count 1000 --port 80
 python main.py full 192.168.0.0/21 --web
 ```
 
