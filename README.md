@@ -89,4 +89,13 @@ Attackers scanning your network hit the honeypot (decoy) instead of real service
 ## Author
 
 Abid Iqbal — IT professional, 6+ years experience (Digital Transformation, Infrastructure, ERP, Security).
+## Web UI
+
+```bash
+pip install -r requirements.txt
+python web/app.py
+# open http://127.0.0.1:5000
+```
+Dashboard: Web Scan, CVE Lookup, SSL Audit, Subdomain Enum. API endpoints: /api/scan-web, /api/cve, /api/ssl, /api/subdomain.
+
 GitHub: https://github.com/abid8670
