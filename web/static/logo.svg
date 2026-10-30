@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect width="256" height="256" rx="40" fill="#0d1117"/>
+  <circle cx="128" cy="120" r="70" fill="#1f2937" stroke="#00e5ff" stroke-width="4"/>
+  <text x="128" y="150" font-size="80" text-anchor="middle">💀</text>
+  <text x="128" y="220" font-family="monospace" font-size="22" fill="#00e5ff" text-anchor="middle" font-weight="bold">CYBERSEC</text>
+  <text x="128" y="242" font-family="monospace" font-size="14" fill="#9ca3af" text-anchor="middle">TOOLKIT</text>
+</svg>

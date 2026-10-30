@@ -67,5 +67,18 @@ def api_honeypot_logs():
                         lines.append({"raw": line})
     return jsonify({"count": len(lines), "logs": lines[-100:]})
 
+@app.route("/api/net-stats", methods=["GET"])
+def api_net_stats():
+    import psutil
+    per = psutil.net_io_counters(pernic=True)
+    out = {}
+    for nic, c in per.items():
+        out[nic] = {"bytes_sent": c.bytes_sent, "bytes_recv": c.bytes_recv,
+                    "packets_sent": c.packets_sent, "packets_recv": c.packets_recv,
+                    "errin": c.errin, "errout": c.errout, "dropin": c.dropin, "dropout": c.dropout}
+    tot = psutil.net_io_counters()
+    return jsonify({"interfaces": out, "total": {"sent": tot.bytes_sent, "recv": tot.bytes_recv,
+                    "psent": tot.packets_sent, "precv": tot.packets_recv}})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
