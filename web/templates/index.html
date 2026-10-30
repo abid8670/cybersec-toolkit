@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8><title>CyberSec Toolkit</title>
+<style>body{font-family:sans-serif;background:#0d1117;color:#c9d1d9;padding:20px}input,button{padding:8px;margin:4px}button{background:#005B64;color:#fff;border:none;border-radius:4px;cursor:pointer}pre{background:#161b22;padding:12px;border-radius:6px;overflow:auto;max-height:400px}</style></head>
+<body>
+<h1>💀 CyberSec Toolkit</h1>
+<div>
+  <h3>Web Vuln Scan</h3>
+  <input id="url" placeholder="https://example.com" size=40>
+  <button onclick="scanWeb()">Scan</button>
+</div>
+<div>
+  <h3>CVE Lookup</h3>
+  <input id="kw" placeholder="apache 2.4" size=40>
+  <button onclick="cve()">Lookup</button>
+</div>
+<div>
+  <h3>SSL Audit</h3>
+  <input id="host" placeholder="example.com" size=40>
+  <button onclick="ssl()">Audit</button>
+</div>
+<div>
+  <h3>Subdomain Enum</h3>
+  <input id="dom" placeholder="example.com" size=40>
+  <button onclick="sub()">Enumerate</button>
+</div>
+<pre id="out">Ready.</pre>
+<script>
+async function call(ep, body){const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);}
+function scanWeb(){call('/api/scan-web',{url:document.getElementById('url').value});}
+function cve(){call('/api/cve',{keyword:document.getElementById('kw').value});}
+function ssl(){call('/api/ssl',{host:document.getElementById('host').value});}
+function sub(){call('/api/subdomain',{domain:document.getElementById('dom').value});}
+</script>
+</body></html>
