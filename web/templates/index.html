@@ -1,34 +1,87 @@
 <!DOCTYPE html>
-<html><head><meta charset=utf-8><title>CyberSec Toolkit</title>
-<style>body{font-family:sans-serif;background:#0d1117;color:#c9d1d9;padding:20px}input,button{padding:8px;margin:4px}button{background:#005B64;color:#fff;border:none;border-radius:4px;cursor:pointer}pre{background:#161b22;padding:12px;border-radius:6px;overflow:auto;max-height:400px}</style></head>
+<html lang="en"><head><meta charset=utf-8><title>CyberSec Toolkit</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--accent:#00e5ff;--text:#c9d1d9;--muted:#8b949e;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);}
+header{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+header h1{margin:0;font-size:20px;}
+header span{color:var(--muted);font-size:13px;}
+.tabs{display:flex;gap:4px;padding:12px 24px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.tab{padding:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);}
+.tab.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.panel{display:none;padding:24px;max-width:1100px;margin:0 auto;}
+.panel.active{display:block;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+input,select{padding:8px 12px;background:#0d1117;border:1px solid var(--border);color:var(--text);border-radius:6px;min-width:180px;}
+button{padding:8px 16px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:600;}
+button.secondary{background:var(--card);color:var(--text);border:1px solid var(--border);}
+pre{background:#0d1117;padding:12px;border-radius:6px;overflow:auto;max-height:420px;border:1px solid var(--border);font-size:12px;}
+</style></head>
 <body>
-<h1>💀 CyberSec Toolkit</h1>
-<div>
-  <h3>Web Vuln Scan</h3>
-  <input id="url" placeholder="https://example.com" size=40>
-  <button onclick="scanWeb()">Scan</button>
+<header><h1>CyberSec Toolkit</h1><span>Web Dashboard - authorized use only</span></header>
+<div class="tabs">
+  <div class="tab active" onclick="show('web')">Web Scan</div>
+  <div class="tab" onclick="show('cve')">CVE Lookup</div>
+  <div class="tab" onclick="show('ssl')">SSL Audit</div>
+  <div class="tab" onclick="show('sub')">Subdomain</div>
+  <div class="tab" onclick="show('flood')">Flood</div>
+  <div class="tab" onclick="show('net')">Network Scan</div>
+  <div class="tab" onclick="show('hp')">Honeypot Logs</div>
 </div>
-<div>
-  <h3>CVE Lookup</h3>
-  <input id="kw" placeholder="apache 2.4" size=40>
-  <button onclick="cve()">Lookup</button>
-</div>
-<div>
-  <h3>SSL Audit</h3>
-  <input id="host" placeholder="example.com" size=40>
-  <button onclick="ssl()">Audit</button>
-</div>
-<div>
-  <h3>Subdomain Enum</h3>
-  <input id="dom" placeholder="example.com" size=40>
-  <button onclick="sub()">Enumerate</button>
-</div>
-<pre id="out">Ready.</pre>
+
+<div id="web" class="panel active"><div class="card">
+  <div class="row"><input id="url" placeholder="https://example.com"><button onclick="scanWeb()">Scan</button></div>
+  <pre id="out-web">Ready.</pre>
+</div></div>
+
+<div id="cve" class="panel"><div class="card">
+  <div class="row"><input id="kw" placeholder="apache 2.4"><button onclick="cve()">Lookup</button></div>
+  <pre id="out-cve">Ready.</pre>
+</div></div>
+
+<div id="ssl" class="panel"><div class="card">
+  <div class="row"><input id="host" placeholder="example.com"><button onclick="ssl()">Audit</button></div>
+  <pre id="out-ssl">Ready.</pre>
+</div></div>
+
+<div id="sub" class="panel"><div class="card">
+  <div class="row"><input id="dom" placeholder="example.com"><button onclick="sub()">Enumerate</button></div>
+  <pre id="out-sub">Ready.</pre>
+</div></div>
+
+<div id="flood" class="panel"><div class="card">
+  <div class="row">
+    <input id="ftarget" placeholder="192.168.0.4">
+    <select id="fmode"><option>syn</option><option>udp</option><option>icmp</option></select>
+    <input id="fcount" placeholder="1000" size=8>
+    <input id="fport" placeholder="80" size=6>
+    <button onclick="flood()">Flood</button>
+  </div>
+  <pre id="out-flood">Ready.</pre>
+</div></div>
+
+<div id="net" class="panel"><div class="card">
+  <div class="row"><input id="ntarget" placeholder="192.168.0.4"><input id="nports" placeholder="1-100" size=12><button onclick="netscan()">Scan</button></div>
+  <pre id="out-net">Ready.</pre>
+</div></div>
+
+<div id="hp" class="panel"><div class="card">
+  <div class="row"><button onclick="hpLogs()">Refresh Logs</button><button class="secondary" onclick="autoHp()">Auto (5s)</button></div>
+  <pre id="out-hp">Loading...</pre>
+</div></div>
+
 <script>
-async function call(ep, body){const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);}
-function scanWeb(){call('/api/scan-web',{url:document.getElementById('url').value});}
-function cve(){call('/api/cve',{keyword:document.getElementById('kw').value});}
-function ssl(){call('/api/ssl',{host:document.getElementById('host').value});}
-function sub(){call('/api/subdomain',{domain:document.getElementById('dom').value});}
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active');}
+async function call(ep,body,outId){const el=document.getElementById(outId);el.textContent='Loading...';try{const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});el.textContent=JSON.stringify(await r.json(),null,2);}catch(e){el.textContent='Error: '+e;}}
+function scanWeb(){call('/api/scan-web',{url:document.getElementById('url').value},'out-web');}
+function cve(){call('/api/cve',{keyword:document.getElementById('kw').value},'out-cve');}
+function ssl(){call('/api/ssl',{host:document.getElementById('host').value},'out-ssl');}
+function sub(){call('/api/subdomain',{domain:document.getElementById('dom').value},'out-sub');}
+function flood(){call('/api/flood',{target:document.getElementById('ftarget').value,mode:document.getElementById('fmode').value,count:parseInt(document.getElementById('fcount').value)||1000,port:parseInt(document.getElementById('fport').value)||80},'out-flood');}
+function netscan(){call('/api/scan-network',{target:document.getElementById('ntarget').value,ports:document.getElementById('nports').value},'out-net');}
+async function hpLogs(){const el=document.getElementById('out-hp');el.textContent='Loading...';const r=await fetch('/api/honeypot-logs');const d=await r.json();el.textContent='Total: '+d.count+'\n'+d.logs.map(l=>JSON.stringify(l)).join('\n');}
+let hpTimer=null;function autoHp(){if(hpTimer){clearInterval(hpTimer);hpTimer=null;}else{hpLogs();hpTimer=setInterval(hpLogs,5000);}}
 </script>
 </body></html>
