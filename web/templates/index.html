@@ -22,14 +22,14 @@ pre{background:#0d1117;padding:12px;border-radius:6px;overflow:auto;max-height:4
 <body>
 <header><img src="/static/logo.svg" height=32 onerror="this.style.display='none'"><h1>CyberSec Toolkit</h1><span>Web Dashboard - authorized use only</span></header>
 <div class="tabs">
-  <div class="tab active" onclick="show('web')">Web Scan</div>
-  <div class="tab" onclick="show('cve')">CVE Lookup</div>
-  <div class="tab" onclick="show('ssl')">SSL Audit</div>
-  <div class="tab" onclick="show('sub')">Subdomain</div>
-  <div class="tab" onclick="show('flood')">Flood</div>
-  <div class="tab" onclick="show('net')">Network Scan</div>
-  <div class="tab" onclick="show('hp')">Honeypot Logs</div>
-  <div class="tab" onclick="show('netmon')">Network Monitor</div>
+  <div class="tab active" onclick="show('web', this)">Web Scan</div>
+  <div class="tab" onclick="show('cve', this)">CVE Lookup</div>
+  <div class="tab" onclick="show('ssl', this)">SSL Audit</div>
+  <div class="tab" onclick="show('sub', this)">Subdomain</div>
+  <div class="tab" onclick="show('flood', this)">Flood</div>
+  <div class="tab" onclick="show('net', this)">Network Scan</div>
+  <div class="tab" onclick="show('hp', this)">Honeypot Logs</div>
+  <div class="tab" onclick="show('netmon', this)">Network Monitor</div>
 </div>
 
 <div id="web" class="panel active"><div class="card">
@@ -79,7 +79,7 @@ pre{background:#0d1117;padding:12px;border-radius:6px;overflow:auto;max-height:4
 </div></div>
 
 <script>
-function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active');}
+function show(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');if(el)el.classList.add('active');}
 async function call(ep,body,outId){const el=document.getElementById(outId);el.textContent='Loading...';try{const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});el.textContent=JSON.stringify(await r.json(),null,2);}catch(e){el.textContent='Error: '+e;}}
 function scanWeb(){call('/api/scan-web',{url:document.getElementById('url').value},'out-web');}
 function cve(){call('/api/cve',{keyword:document.getElementById('kw').value},'out-cve');}
