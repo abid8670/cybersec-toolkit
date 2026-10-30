@@ -2,6 +2,7 @@
 import argparse, json
 from core.cve import CVELookup
 from core.remote import RemoteChecker
+from core.agent_monitor import monitor
 from core.scanner import NetworkScanner
 from core.web_vuln import WebVulnScanner
 from core.hping import HPing
@@ -10,6 +11,14 @@ import urllib3
 urllib3.disable_warnings()
 
 def main():
+    print("""
+   ____      _               ____            _   _           _ _
+  / ___|   _| |__   ___ _ __/ ___|  ___  ___| |_(_) ___ __ _| | |
+ | |  | | | | '_ \\ / _ \\ '__\\___ \\ / _ \\/ __| __| |/ __/ _` | | |
+ | |__| |_| | |_) |  __/ |   ___) |  __/ (__| |_| | (_| (_| | | |
+  \\____\\__, |_.__/ \\___|_|  |____/ \\___|\\___|\\__|_|\\___\\__,_|_|_|
+       |___/        CyberSec Toolkit  |  authorized use only
+""")
     p = argparse.ArgumentParser(prog="cybersec-toolkit")
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -18,6 +27,7 @@ def main():
     h = sub.add_parser("hping"); h.add_argument("target"); h.add_argument("--mode", choices=["syn","udp","icmp"], default="syn"); h.add_argument("--count", type=int, default=1000); h.add_argument("--port", type=int, default=80); h.add_argument("--flood", action="store_true")
     c = sub.add_parser("cve"); c.add_argument("keyword"); c.add_argument("--limit", type=int, default=10)
     r = sub.add_parser("remote-health"); r.add_argument("host"); r.add_argument("-u","--user", required=True); r.add_argument("-p","--password"); r.add_argument("--key")
+    a = sub.add_parser("agent-status"); a.add_argument("--config", default="agents.json")
     f = sub.add_parser("full"); f.add_argument("target"); f.add_argument("--web", action="store_true")
 
     args = p.parse_args()
@@ -52,6 +62,16 @@ def main():
         data = rc.health()
         print(json.dumps(data, indent=2, default=str))
         print("Saved:", rep.save_json(data, "remote"))
+
+    elif args.cmd == "agent-status":
+        with open(args.config) as f:
+            agents = json.load(f)
+        data = monitor(agents)
+        for d in data:
+            print(f"[{d['status']}] {d['name']} ({d['url']})")
+            if d["status"] == "UP":
+                print("   ", d["data"])
+        print("Saved:", rep.save_json(data, "agents"))
 
     elif args.cmd == "full":
         ns = NetworkScanner(args.target)

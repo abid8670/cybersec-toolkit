@@ -19,6 +19,7 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 | **hping3 Wrapper** | TCP SYN / UDP / ICMP flood for stress-testing own servers |
 | **CVE Lookup** | Live CVE search via NVD API (CVSS + descriptions) |
 | **Remote Health** | SSH-based server monitoring (uptime, CPU, mem, disk, services, ports) |
+| **Agent Monitor** | Generic agent health checks across multiple servers |
 | **Reporter** | JSON + HTML reports |
 
 ## Install
@@ -48,6 +49,7 @@ python main.py scan-web https://target.example
 python main.py cve "apache 2.4" --limit 10
 python main.py hping 192.168.0.4 --mode syn --count 1000 --flood
 python main.py remote-health 192.168.0.4 -u root -p <password>
+python main.py agent-status --config agents.json.example
 python main.py full 192.168.0.0/21 --web
 ```
 
