@@ -22,11 +22,20 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 
 ## Install
 
+### Windows
+1. Python 3.10+ (python.org, add to PATH).
+2. `pip install -r requirements.txt`
+3. Nmap: https://nmap.org/download.html
+4. hping3: use WSL/VM (Linux) — native Windows nahi hai.
+
+### Linux (Ubuntu/Debian)
 ```bash
+sudo apt update
+sudo apt install -y python3 python3-pip nmap hping3
 git clone https://github.com/abid8670/cybersec-toolkit.git
 cd cybersec-toolkit
-pip install -r requirements.txt
-# external: nmap (https://nmap.org), hping3 (Linux/WSL: apt install hping3)
+pip3 install -r requirements.txt
+python3 main.py --help
 ```
 
 ## Usage
