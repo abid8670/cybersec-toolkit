@@ -18,6 +18,7 @@ A Python-based cybersecurity assessment toolkit for **authorized** testing of yo
 | **Web Vuln Scanner** | Security headers, CORS, forms, SQLi/XSS probes, sensitive files, open redirect |
 | **hping3 Wrapper** | TCP SYN / UDP / ICMP flood for stress-testing own servers |
 | **CVE Lookup** | Live CVE search via NVD API (CVSS + descriptions) |
+| **Remote Health** | SSH-based server monitoring (uptime, CPU, mem, disk, services, ports) |
 | **Reporter** | JSON + HTML reports |
 
 ## Install
@@ -46,6 +47,7 @@ python main.py scan-network 192.168.0.0/21 --ports 1-1024
 python main.py scan-web https://target.example
 python main.py cve "apache 2.4" --limit 10
 python main.py hping 192.168.0.4 --mode syn --count 1000 --flood
+python main.py remote-health 192.168.0.4 -u root -p <password>
 python main.py full 192.168.0.0/21 --web
 ```
 
