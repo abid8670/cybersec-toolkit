@@ -1,6 +1,7 @@
 """CyberSec Toolkit CLI entry point."""
 import argparse, json
 from core.cve import CVELookup
+from core.remote import RemoteChecker
 from core.scanner import NetworkScanner
 from core.web_vuln import WebVulnScanner
 from core.hping import HPing
@@ -16,6 +17,7 @@ def main():
     w = sub.add_parser("scan-web"); w.add_argument("url")
     h = sub.add_parser("hping"); h.add_argument("target"); h.add_argument("--mode", choices=["syn","udp","icmp"], default="syn"); h.add_argument("--count", type=int, default=1000); h.add_argument("--port", type=int, default=80); h.add_argument("--flood", action="store_true")
     c = sub.add_parser("cve"); c.add_argument("keyword"); c.add_argument("--limit", type=int, default=10)
+    r = sub.add_parser("remote-health"); r.add_argument("host"); r.add_argument("-u","--user", required=True); r.add_argument("-p","--password"); r.add_argument("--key")
     f = sub.add_parser("full"); f.add_argument("target"); f.add_argument("--web", action="store_true")
 
     args = p.parse_args()
@@ -44,6 +46,12 @@ def main():
         data = cl.search(args.keyword, args.limit)
         print(json.dumps(data, indent=2, default=str))
         print("Saved:", rep.save_json(data, "cve"))
+
+    elif args.cmd == "remote-health":
+        rc = RemoteChecker(args.host, args.user, password=args.password, key=args.key)
+        data = rc.health()
+        print(json.dumps(data, indent=2, default=str))
+        print("Saved:", rep.save_json(data, "remote"))
 
     elif args.cmd == "full":
         ns = NetworkScanner(args.target)
