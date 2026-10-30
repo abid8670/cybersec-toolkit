@@ -89,10 +89,8 @@ function flood(){call('/api/flood',{target:document.getElementById('ftarget').va
 function netscan(){call('/api/scan-network',{target:document.getElementById('ntarget').value,ports:document.getElementById('nports').value},'out-net');}
 async function hpLogs(){const el=document.getElementById('out-hp');el.textContent='Loading...';const r=await fetch('/api/honeypot-logs');const d=await r.json();el.textContent='Total: '+d.count+'\n'+d.logs.map(l=>JSON.stringify(l)).join('\n');}
 let hpTimer=null;function autoHp(){if(hpTimer){clearInterval(hpTimer);hpTimer=null;}else{hpLogs();hpTimer=setInterval(hpLogs,5000);}}
-async function netmon(){const el=document.getElementById("out-netmon");el.textContent="Loading...";const r=await fetch("/api/net-stats");const d=await r.json();let t="TOTAL sent: "+d.total.sent+" recv: "+d.total.recv+" pkts: "+d.total.psent+"/"+d.total.precv+"
+async function netmon(){const el=document.getElementById("out-netmon");el.textContent="Loading...";const r=await fetch("/api/net-stats");const d=await r.json();let t="TOTAL sent: "+d.total.sent+" recv: "+d.total.recv+" pkts: "+d.total.psent+"/"+d.total.precv+"\n\n";for(const k in d.interfaces){const v=d.interfaces[k];t+=k+": sent="+v.bytes_sent+" recv="+v.bytes_recv+" psent="+v.packets_sent+" precv="+v.packets_recv+" err="+v.errin+"/"+v.errout+" drop="+v.dropin+"/"+v.dropout+"\n";}el.textContent=t;}
 
-";for(const k in d.interfaces){const v=d.interfaces[k];t+=k+": sent="+v.bytes_sent+" recv="+v.bytes_recv+" psent="+v.packets_sent+" precv="+v.packets_recv+" err="+v.errin+"/"+v.errout+" drop="+v.dropin+"/"+v.dropout+"
-";}el.textContent=t;}
 let netTimer=null;function autoNet(){if(netTimer){clearInterval(netTimer);netTimer=null;}else{netmon();netTimer=setInterval(netmon,3000);}}
 </script>
 </body></html>
